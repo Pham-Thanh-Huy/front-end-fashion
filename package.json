@@ -10,6 +10,7 @@
     "@types/node": "^16.18.83",
     "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
+    "jquery": "^3.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
@@ -40,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "@types/slick-carousel": "^1.6.40"
   }
 }
