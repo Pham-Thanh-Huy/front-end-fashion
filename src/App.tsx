@@ -28,7 +28,6 @@ function App() {
           <Route path="/contact-us" element={<ContactUs/>} />
           <Route path="/check-out" element={<CheckOut/>} />
           <Route path="*" element={<Page404/>} />
-
         </Routes>
         <Footer/>
       </BrowserRouter>
