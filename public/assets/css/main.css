@@ -2157,26 +2157,26 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .stext-104 {
-  font-family: Poppins-Regular;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.466667;
 }
 
 .stext-105 {
-  font-family: Poppins-Regular;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 14px;
   line-height: 1.466667;
   letter-spacing: 1px;
 }
 
 .stext-106 {
-  font-family: Poppins-Regular;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 15px;
   line-height: 1.2;
 }
 
 .stext-107 {
-  font-family: Poppins-Regular;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   line-height: 1.923;
 }
@@ -2345,7 +2345,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .ltext-102 {
-  font-family: Poppins-Bold;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 28px;
   line-height: 1.1;
 }

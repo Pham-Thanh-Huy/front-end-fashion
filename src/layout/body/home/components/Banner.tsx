@@ -14,15 +14,15 @@ const Banner = () => {
                                 <a href="product.html" className="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                                     <div className="block1-txt-child1 flex-col-l">
                                         <span className="block1-name ltext-102 trans-04 p-b-8">
-                                            Women
+                                            Phụ Nữ
                                         </span>
-                                        <span className="block1-info stext-102 trans-04">
-                                            Spring 2018
+                                        <span className="block1-info stext-104 trans-04">
+                                            Mùa Xuân 2018
                                         </span>
                                     </div>
                                     <div className="block1-txt-child2 p-b-4 trans-05">
                                         <div className="block1-link stext-101 cl0 trans-09">
-                                            Shop Now
+                                            Mua Ngay
                                         </div>
                                     </div>
                                 </a>
@@ -35,15 +35,15 @@ const Banner = () => {
                                 <a href="product.html" className="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                                     <div className="block1-txt-child1 flex-col-l">
                                         <span className="block1-name ltext-102 trans-04 p-b-8">
-                                            Men
+                                            Nam
                                         </span>
-                                        <span className="block1-info stext-102 trans-04">
-                                            Spring 2018
+                                        <span className="block1-info stext-104 trans-04">
+                                            Mùa Xuân 2018
                                         </span>
                                     </div>
                                     <div className="block1-txt-child2 p-b-4 trans-05">
                                         <div className="block1-link stext-101 cl0 trans-09">
-                                            Shop Now
+                                            Mua Ngay
                                         </div>
                                     </div>
                                 </a>
@@ -56,15 +56,15 @@ const Banner = () => {
                                 <a href="product.html" className="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                                     <div className="block1-txt-child1 flex-col-l">
                                         <span className="block1-name ltext-102 trans-04 p-b-8">
-                                            Accessories
+                                            Phụ Kiện
                                         </span>
-                                        <span className="block1-info stext-102 trans-04">
-                                            New Trend
+                                        <span className="block1-info stext-104 trans-04">
+                                            Xu Hướng Mới
                                         </span>
                                     </div>
                                     <div className="block1-txt-child2 p-b-4 trans-05">
                                         <div className="block1-link stext-101 cl0 trans-09">
-                                            Shop Now
+                                            Mua Ngay
                                         </div>
                                     </div>
                                 </a>

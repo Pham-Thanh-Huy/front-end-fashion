@@ -1,7 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from './components/BreadCrumb';
+import ProductEntity from '../../../entity/ProductEntity';
+import { getProductById } from '../../../utils/CallApi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ShopDetail = () => {
+    const [product, setProduct] = useState<ProductEntity | null>();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const searchParam = new URLSearchParams(location.search);
+    const idString = searchParam.get("id");
+    const id = idString ? parseInt(idString, 10) : NaN;
+
+    useEffect(() => {
+        if (isNaN(id)) {
+            navigate(-1); // Quay lại nếu id không hợp lệ
+            return; // Dừng lại nếu id không hợp lệ
+        }
+
+        // Lấy sản phẩm theo ID
+        getProductById(id)
+            .then((response) => {
+                if (!response || Object.keys(response).length === 0) {
+                    navigate(-1); // Nếu response là null, undefined, hoặc đối tượng rỗng thì điều hướng về trang trước
+                } else setProduct(response); // Nếu response hợp lệ, thì lưu dữ liệu vào state
+                
+            })
+            .catch((error) => console.log(error)); // Bắt lỗi nếu có lỗi xảy ra trong quá trình fetch
+
+
+    }, [id, navigate]); // Chạy khi id thay đổi
+
+    useEffect(() => {
+        // Chỉ khởi tạo slick khi product đã có và imageList là mảng hợp lệ
+        if (product && Array.isArray(product.imageList) && product.imageList.length > 0) {
+            $('.wrap-slick3').each(function () {
+                // Kiểm tra xem slick đã được khởi tạo chưa
+                if (!$(this).find('.slick3').hasClass('slick-initialized')) {
+                    $(this).find('.slick3').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        fade: true,
+                        infinite: true,
+                        autoplay: false,
+                        autoplaySpeed: 6000,
+                        arrows: true,
+                        appendArrows: $(this).find('.wrap-slick3-arrows'),
+                        prevArrow: '<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+                        nextArrow: '<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+                        dots: true,
+                        appendDots: $(this).find('.wrap-slick3-dots'),
+                        dotsClass: 'slick3-dots',
+                        customPaging: function (slick, index) {
+                            const portrait = $(slick.$slides[index]).data('thumb');
+                            return `<img src="${portrait}" /><div class="slick3-dot-overlay"></div>`;
+                        },
+                    });
+                }
+            });
+        }
+    }, [product]);
+
     return (
         <React.Fragment>
             <div>
@@ -17,30 +77,18 @@ const ShopDetail = () => {
                                         <div className="wrap-slick3-dots" />
                                         <div className="wrap-slick3-arrows flex-sb-m flex-w" />
                                         <div className="slick3 gallery-lb">
-                                            <div className="item-slick3" data-thumb="../../../../public/assets/../../../../public/assets/images/product-detail-01.jpg">
-                                                <div className="wrap-pic-w pos-relative">
-                                                    <img src="../../../../public/assets/../../../../public/assets/images/product-detail-01.jpg" alt="IMG-PRODUCT" />
-                                                    <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../public/assets/../../../../public/assets/images/product-detail-01.jpg">
-                                                        <i className="fa fa-expand" />
-                                                    </a>
+                                            {product?.imageList.map((value) => (
+                                                <div className="item-slick3" data-thumb={value.imageUrl}>
+                                                    <div className="wrap-pic-w pos-relative">
+                                                        <img src={value.imageUrl} alt="IMG-PRODUCT" />
+                                                        <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href={value.imageUrl}>
+                                                            <i className="fa fa-expand" />
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="item-slick3" data-thumb="../../../../public/assets/../../../../public/assets/images/product-detail-02.jpg">
-                                                <div className="wrap-pic-w pos-relative">
-                                                    <img src="../../../../public/assets/../../../../public/assets/images/product-detail-02.jpg" alt="IMG-PRODUCT" />
-                                                    <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../public/assets/../../../../public/assets/images/product-detail-02.jpg">
-                                                        <i className="fa fa-expand" />
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div className="item-slick3" data-thumb="../../../../public/assets/images/product-detail-03.jpg">
-                                                <div className="wrap-pic-w pos-relative">
-                                                    <img src="../../../../public/assets/images/product-detail-03.jpg" alt="IMG-PRODUCT" />
-                                                    <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../public/assets/images/product-detail-03.jpg">
-                                                        <i className="fa fa-expand" />
-                                                    </a>
-                                                </div>
-                                            </div>
+                                            ))}
+
+
                                         </div>
                                     </div>
                                 </div>

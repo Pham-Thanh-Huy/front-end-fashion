@@ -1,6 +1,8 @@
 import React from 'react';
 
 const BlogDetail = () => {
+
+
     return (
         <React.Fragment>
             {/* Content page */}

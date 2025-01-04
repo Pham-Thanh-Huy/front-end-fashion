@@ -7,65 +7,65 @@ const Footer = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-lg-3 p-b-50">
-                            <h4 className="stext-301 cl0 p-b-30">
-                                Categories
+                            <h4 className="stext-107  p-b-30">
+                                Danh Mục
                             </h4>
                             <ul>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Women
+                                        Nữ
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Men
+                                        Nam
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Shoes
+                                        Giày
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Watches
+                                        Đồng Hồ
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div className="col-sm-6 col-lg-3 p-b-50">
-                            <h4 className="stext-301 cl0 p-b-30">
-                                Help
+                            <h4 className="stext-107 c0 p-b-30">
+                                Hỗ Trợ
                             </h4>
                             <ul>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Track Order
+                                        Theo Dõi Đơn Hàng
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Returns
+                                        Đổi Trả
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        Shipping
+                                        Giao Hàng
                                     </a>
                                 </li>
                                 <li className="p-b-10">
                                     <a href="#" className="stext-107 cl10 hov-cl1 trans-04">
-                                        FAQs
+                                        Câu Hỏi Thường Gặp
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div className="col-sm-6 col-lg-3 p-b-50">
-                            <h4 className="stext-301 cl0 p-b-30">
-                                GET IN TOUCH
+                            <h4 className="stext-107  p-b-30">
+                                LIÊN HỆ VỚI CHÚNG TÔI
                             </h4>
                             <p className="stext-107 cl10 size-201">
-                                Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
+                                Có câu hỏi? Hãy liên hệ với chúng tôi tại cửa hàng tầng 8, 379 Hudson St, New York, NY 10018 hoặc gọi cho chúng tôi theo số (+1) 96 716 6879
                             </p>
                             <div className="p-t-27">
                                 <a href="#" className="fs-18 cl10 hov-cl1 trans-04 m-r-16">
@@ -80,8 +80,8 @@ const Footer = () => {
                             </div>
                         </div>
                         <div className="col-sm-6 col-lg-3 p-b-50">
-                            <h4 className="stext-301 cl0 p-b-30">
-                                Newsletter
+                            <h4 className="stext-107  p-b-30">
+                                Bản Tin
                             </h4>
                             <form>
                                 <div className="wrap-input1 w-full p-b-4">
@@ -90,7 +90,7 @@ const Footer = () => {
                                 </div>
                                 <div className="p-t-18">
                                     <button className="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-                                        Subscribe
+                                        Đăng Ký
                                     </button>
                                 </div>
                             </form>
@@ -109,7 +109,7 @@ const Footer = () => {
                             <div className="container">
                                 <div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
                                     <button className="how-pos3 hov3 trans-04 js-hide-modal1">
-                                        <img src="../../../../../public/assets/images/icons/icon-close.png" alt="CLOSE" />
+                                        <img src="../../../../../public/assets/images/icons/icon-close.png" alt="ĐÓNG" />
                                     </button>
                                     <div className="row">
                                         <div className="col-md-6 col-lg-7 p-b-30">
@@ -120,7 +120,7 @@ const Footer = () => {
                                                     <div className="slick3 gallery-lb">
                                                         <div className="item-slick3" data-thumb="../../../../../public/assets/images/product-detail-01.jpg">
                                                             <div className="wrap-pic-w pos-relative">
-                                                                <img src="../../../../../public/assets/images/product-detail-01.jpg" alt="IMG-PRODUCT" />
+                                                                <img src="../../../../../public/assets/images/product-detail-01.jpg" alt="IMG-SẢN PHẨM" />
                                                                 <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../../public/assets/images/product-detail-01.jpg">
                                                                     <i className="fa fa-expand" />
                                                                 </a>
@@ -128,7 +128,7 @@ const Footer = () => {
                                                         </div>
                                                         <div className="item-slick3" data-thumb="../../../../../public/assets/images/product-detail-02.jpg">
                                                             <div className="wrap-pic-w pos-relative">
-                                                                <img src="../../../../../public/assets/images/product-detail-02.jpg" alt="IMG-PRODUCT" />
+                                                                <img src="../../../../../public/assets/images/product-detail-02.jpg" alt="IMG-SẢN PHẨM" />
                                                                 <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../../public/assets/images/product-detail-02.jpg">
                                                                     <i className="fa fa-expand" />
                                                                 </a>
@@ -136,7 +136,7 @@ const Footer = () => {
                                                         </div>
                                                         <div className="item-slick3" data-thumb="../../../../../public/assets/images/product-detail-03.jpg">
                                                             <div className="wrap-pic-w pos-relative">
-                                                                <img src="../../../../../public/assets/images/product-detail-03.jpg" alt="IMG-PRODUCT" />
+                                                                <img src="../../../../../public/assets/images/product-detail-03.jpg" alt="IMG-SẢN PHẨM" />
                                                                 <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../../../../public/assets/images/product-detail-03.jpg">
                                                                     <i className="fa fa-expand" />
                                                                 </a>
@@ -149,7 +149,7 @@ const Footer = () => {
                                         <div className="col-md-6 col-lg-5 p-b-30">
                                             <div className="p-r-50 p-t-5 p-lr-0-lg">
                                                 <h4 className="mtext-105 cl2 js-name-detail p-b-14">
-                                                    Lightweight Jacket
+                                                    Áo Khoác Nhẹ
                                                 </h4>
                                                 <span className="mtext-106 cl2">
                                                     $58.79
@@ -161,16 +161,16 @@ const Footer = () => {
                                                 <div className="p-t-33">
                                                     <div className="flex-w flex-r-m p-b-10">
                                                         <div className="size-203 flex-c-m respon6">
-                                                            Size
+                                                            Kích Cỡ
                                                         </div>
                                                         <div className="size-204 respon6-next">
                                                             <div className="rs1-select2 bor8 bg0">
                                                                 <select className="js-select2" name="time">
-                                                                    <option>Choose an option</option>
-                                                                    <option>Size S</option>
-                                                                    <option>Size M</option>
-                                                                    <option>Size L</option>
-                                                                    <option>Size XL</option>
+                                                                    <option>Chọn một tùy chọn</option>
+                                                                    <option>Kích cỡ S</option>
+                                                                    <option>Kích cỡ M</option>
+                                                                    <option>Kích cỡ L</option>
+                                                                    <option>Kích cỡ XL</option>
                                                                 </select>
                                                                 <div className="dropDownSelect2" />
                                                             </div>
@@ -178,16 +178,16 @@ const Footer = () => {
                                                     </div>
                                                     <div className="flex-w flex-r-m p-b-10">
                                                         <div className="size-203 flex-c-m respon6">
-                                                            Color
+                                                            Màu Sắc
                                                         </div>
                                                         <div className="size-204 respon6-next">
                                                             <div className="rs1-select2 bor8 bg0">
                                                                 <select className="js-select2" name="time">
-                                                                    <option>Choose an option</option>
-                                                                    <option>Red</option>
-                                                                    <option>Blue</option>
-                                                                    <option>White</option>
-                                                                    <option>Grey</option>
+                                                                    <option>Chọn một tùy chọn</option>
+                                                                    <option>Đỏ</option>
+                                                                    <option>Xanh</option>
+                                                                    <option>Trắng</option>
+                                                                    <option>Xám</option>
                                                                 </select>
                                                                 <div className="dropDownSelect2" />
                                                             </div>
@@ -205,7 +205,7 @@ const Footer = () => {
                                                                 </div>
                                                             </div>
                                                             <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                                                Add to cart
+                                                                Thêm vào giỏ
                                                             </button>
                                                         </div>
                                                     </div>
@@ -213,7 +213,7 @@ const Footer = () => {
                                                 {/*  */}
                                                 <div className="flex-w flex-m p-l-100 p-t-40 respon7">
                                                     <div className="flex-m bor9 p-r-10 m-r-11">
-                                                        <a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+                                                        <a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Thêm vào danh sách yêu thích">
                                                             <i className="zmdi zmdi-favorite" />
                                                         </a>
                                                     </div>
@@ -237,7 +237,6 @@ const Footer = () => {
 
                 </div>
             </footer>
-
         </React.Fragment>
     );
 };
