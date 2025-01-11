@@ -4,7 +4,7 @@ import Header from "./layout/header-footer/Header";
 import CartUtils from "./layout/layout-utils/CartUtils";
 import Footer from "./layout/header-footer/Footer";
 import Home from "./layout/body/home/Home";
-import Shop from "./layout/body/shop/Shop";
+// import Shop from "./layout/body/shop/Shop";
 import ShopDetail from "./layout/body/shop/ShopDetail";
 import LoadScripts from "./config/LoadScripts";
 import Contact from "./layout/body/contact/Contact";
@@ -12,10 +12,9 @@ import Blog from "./layout/body/blog/Blog";
 import Cart from "./layout/body/cart/Cart";
 import BlogDetail from "./layout/body/blog/BlogDetail";
 import About from "./layout/body/about/About";
+import Shop from "./layout/body/shop/Shop";
 
 function App() {
-
-
   return (
     <BrowserRouter>
       <div>

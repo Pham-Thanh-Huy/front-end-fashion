@@ -1,0 +1,53 @@
+/* Tạo kiểu cho phần tử <select> với các className mới */
+.custom-select-container {
+    position: relative;
+    width: 100%;
+}
+
+
+
+/* Định dạng cho phần tử <select> */
+.custom-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: white; /* Màu nền xám tối */
+
+    border: none;
+    border-radius: 8px; /* Góc bo tròn */
+    appearance: none; /* Ẩn đi các mặc định của trình duyệt (ví dụ: dấu mũi tên trong select) */
+    cursor: pointer; /* Đổi con trỏ khi hover */
+}
+
+
+
+/* Thêm hiệu ứng khi select đang được focus */
+.custom-select:focus {
+    outline: none; /* Loại bỏ viền khi focus */
+    border-color: #aaa; /* Thêm viền màu xám sáng khi focus */
+}
+
+/* Tùy chỉnh cho phần tử <option> */
+.custom-option {
+    background-color: white; /* Nền xám tối */
+
+    padding: 8px 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Thêm hiệu ứng khi hover cho các <option> */
+.custom-option:hover {
+    background-color: #444 !important; /* Nền sáng hơn khi hover */
+    color: #ddd; /* Màu chữ sáng hơn khi hover */
+}
+
+/* Thiết kế cho mũi tên của dropdown */
+.custom-dropDownSelect {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Không cho phép click vào mũi tên */
+}

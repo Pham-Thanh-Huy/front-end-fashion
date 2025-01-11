@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import ProductEntity from '../../../entity/ProductEntity';
@@ -9,8 +10,7 @@ const Shop = () => {
     const [listProduct, setListProduct] = useState<ProductEntity[]>([]);
     const [page, setPage] = useState<number>(0);
     const [sizePage, setSizePage] = useState<number>(10);
-    setPage(0)
-    setSizePage(10)
+
     useEffect(() => {
         getAllProuctPagination(page, sizePage).then((products) => {
             setListProduct(products);
@@ -19,8 +19,6 @@ const Shop = () => {
             // Set an empty array or show an error message to the user
             setListProduct([]);
         })
-        
-        
     }, []);
     return (
         <React.Fragment>
@@ -35,8 +33,8 @@ const Shop = () => {
                                 <div className="block2">
                                     <div className="block2-pic hov-img0">
                                         <img src={product.imageList[0].imageUrl} alt="IMG-PRODUCT" />
-                                        <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                            Quick View
+                                        <a href={`/shop-detail?id=${product.productId}`} className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                           Xem chi tiết
                                         </a>
                                     </div>
                                     <div className="block2-txt flex-w flex-t p-t-14">
@@ -45,7 +43,7 @@ const Shop = () => {
                                                 {product.productName}
                                             </a>
                                             <span className="stext-105 cl3">
-                                               {formatVND(product.productPrice)}
+                                                {formatVND(product.productPrice)}
                                             </span>
                                         </div>
                                         <div className="block2-txt-child2 flex-r p-t-3">
@@ -58,7 +56,6 @@ const Shop = () => {
                                 </div>
                             </div>
                         ))}
-
                         {/* Pagination */}
                         <div className="flex-c-m flex-w w-full p-t-38">
                             <a href="#" className="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">

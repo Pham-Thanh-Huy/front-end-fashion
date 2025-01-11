@@ -18,7 +18,7 @@ const Header = () => {
               <div className="menu-desktop">
                 <ul className="main-menu">
                   <li className="active-menu">
-                    <a href="/">Home</a>
+                    <a href="/">Trang chủ</a>
                     <ul className="sub-menu">
                       <li><a href="/">Homepage 1</a></li>
                       <li><a href="/">Homepage 2</a></li>
@@ -26,16 +26,16 @@ const Header = () => {
                     </ul>
                   </li>
                   <li>
-                    <a href="shop">Shop</a>
+                    <a href="shop">Sản phẩm</a>
                   </li>
                   <li>
-                    <a href="blog">Blog</a>
+                    <a href="blog">Tin tức</a>
                   </li>
                   <li>
-                    <a href="about">About</a>
+                    <a href="about">Về chúng tôi</a>
                   </li>
                   <li>
-                    <a href="contact">Contact</a>
+                    <a href="contact">Liên hệ</a>
                   </li>
                 </ul>
               </div>

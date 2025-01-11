@@ -3,7 +3,8 @@ import BreadCrumb from './components/BreadCrumb';
 import ProductEntity from '../../../entity/ProductEntity';
 import { getProductById } from '../../../utils/CallApi';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import './css/shop-detail.style.css'
+import { formatVND } from '../../../utils/FormatUtil';
 const ShopDetail = () => {
     const [product, setProduct] = useState<ProductEntity | null>();
     const location = useLocation();
@@ -25,7 +26,7 @@ const ShopDetail = () => {
                 if (!response || Object.keys(response).length === 0) {
                     navigate(-1); // Nếu response là null, undefined, hoặc đối tượng rỗng thì điều hướng về trang trước
                 } else setProduct(response); // Nếu response hợp lệ, thì lưu dữ liệu vào state
-                
+
             })
             .catch((error) => console.log(error)); // Bắt lỗi nếu có lỗi xảy ra trong quá trình fetch
 
@@ -96,13 +97,13 @@ const ShopDetail = () => {
                             <div className="col-md-6 col-lg-5 p-b-30">
                                 <div className="p-r-50 p-t-5 p-lr-0-lg">
                                     <h4 className="mtext-105 cl2 js-name-detail p-b-14">
-                                        Lightweight Jacket
+                                        {product?.productName}
                                     </h4>
                                     <span className="mtext-106 cl2">
-                                        $58.79
+                                        {product ? formatVND(product?.productPrice): 'loading....'}
                                     </span>
                                     <p className="stext-102 cl3 p-t-23">
-                                        Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+                                       {product?.productDetail}
                                     </p>
                                     {/*  */}
                                     <div className="p-t-33">
@@ -111,35 +112,36 @@ const ShopDetail = () => {
                                                 Size
                                             </div>
                                             <div className="size-204 respon6-next">
-                                                <div className="rs1-select2 bor8 bg0">
-                                                    <select className="js-select2" name="time">
-                                                        <option>Choose an option</option>
-                                                        <option>Size S</option>
-                                                        <option>Size M</option>
-                                                        <option>Size L</option>
-                                                        <option>Size XL</option>
+                                                <div className="custom-select-container bor8 bg0">
+                                                    <select className="custom-select" name="size">
+                                                    <option className="custom-option">Chọn size</option>
+                                                        {product?.inventoryList.map((value) => (
+                                                            <option data-id={value.productSize.sizeName} className="custom-option">{value.productSize.sizeName}</option>
+                                                        ))}
+                            
                                                     </select>
-                                                    <div className="dropDownSelect2" />
+                                                    <div className="custom-dropDownSelect" />
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="flex-w flex-r-m p-b-10">
                                             <div className="size-203 flex-c-m respon6">
                                                 Color
                                             </div>
                                             <div className="size-204 respon6-next">
-                                                <div className="rs1-select2 bor8 bg0">
-                                                    <select className="js-select2" name="time">
-                                                        <option>Choose an option</option>
-                                                        <option>Red</option>
-                                                        <option>Blue</option>
-                                                        <option>White</option>
-                                                        <option>Grey</option>
+                                                <div className="custom-select-container bor8 bg0">
+                                                    <select className="custom-select" name="color">
+                                                        <option className="custom-option">Chọn màu</option>
+                                                        {product?.inventoryList.map((value) => (
+                                                            <option data-id={value.productColor.colorName} className="custom-option">{value.productColor.colorName}</option>
+                                                        ))}
                                                     </select>
-                                                    <div className="dropDownSelect2" />
+                                                    <div className="custom-dropDownSelect" />
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="flex-w flex-r-m p-b-10">
                                             <div className="size-204 flex-w flex-m respon6-next">
                                                 <div className="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -152,7 +154,7 @@ const ShopDetail = () => {
                                                     </div>
                                                 </div>
                                                 <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                                    Add to cart
+                                                    Thêm vào giỏ hàng
                                                 </button>
                                             </div>
                                         </div>
@@ -183,14 +185,14 @@ const ShopDetail = () => {
                                 {/* Nav tabs */}
                                 <ul className="nav nav-tabs" role="tablist">
                                     <li className="nav-item p-b-10">
-                                        <a className="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                                        <a className="nav-link active" data-toggle="tab" href="#description" role="tab">Mô tả</a>
                                     </li>
                                     <li className="nav-item p-b-10">
-                                        <a className="nav-link" data-toggle="tab" href="#information" role="tab">Additional information</a>
+                                        <a className="nav-link" data-toggle="tab" href="#information" role="tab">Thông tin về sản phẩm</a>
                                     </li>
-                                    <li className="nav-item p-b-10">
-                                        <a className="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
-                                    </li>
+                                    {/* <li className="nav-item p-b-10">
+                                        <a className="nav-link" data-toggle="tab" href="#reviews" role="tab">Đánh giá sản phẩm</a>
+                                    </li> */}
                                 </ul>
                                 {/* Tab panes */}
                                 <div className="tab-content p-t-43">
@@ -198,7 +200,7 @@ const ShopDetail = () => {
                                     <div className="tab-pane fade show active" id="description" role="tabpanel">
                                         <div className="how-pos2 p-lr-15-md">
                                             <p className="stext-102 cl6">
-                                                Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+                                                {product?.productDescription}
                                             </p>
                                         </div>
                                     </div>
@@ -255,9 +257,9 @@ const ShopDetail = () => {
                                     <div className="tab-pane fade" id="reviews" role="tabpanel">
                                         <div className="row">
                                             <div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-                                                <div className="p-b-30 m-lr-15-sm">
+                                            <div className="p-b-30 m-lr-15-sm">
                                                     {/* Review */}
-                                                    <div className="flex-w flex-t p-b-68">
+                                                    {/* <div className="flex-w flex-t p-b-68">
                                                         <div className="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
                                                             <img src="../../../../public/assets/images/avatar-01.jpg" alt="AVATAR" />
                                                         </div>
@@ -278,9 +280,9 @@ const ShopDetail = () => {
                                                                 Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
                                                             </p>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     {/* Add review */}
-                                                    <form className="w-full">
+                                                    {/* <form className="w-full">
                                                         <h5 className="mtext-108 cl2 p-b-7">
                                                             Add a review
                                                         </h5>
@@ -317,7 +319,7 @@ const ShopDetail = () => {
                                                         <button className="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
                                                             Submit
                                                         </button>
-                                                    </form>
+                                                    </form> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -328,242 +330,11 @@ const ShopDetail = () => {
                     </div>
                     <div className="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
                         <span className="stext-107 cl6 p-lr-25">
-                            SKU: JAK-01
+                            {product?.productCode}
                         </span>
                         <span className="stext-107 cl6 p-lr-25">
-                            Categories: Jacket, Men
+                            Danh mục: {product?.categoryProduct.categoryName}
                         </span>
-                    </div>
-                </section>
-                {/* Related Products */}
-                <section className="sec-relate-product bg0 p-t-45 p-b-105">
-                    <div className="container">
-                        <div className="p-b-45">
-                            <h3 className="ltext-106 cl5 txt-center">
-                                Related Products
-                            </h3>
-                        </div>
-                        {/* Slide2 */}
-                        <div className="wrap-slick2">
-                            <div className="slick2">
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-01.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Esprit Ruffle Shirt
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $16.64
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-02.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Herschel supply
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $35.31
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-03.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Only Check Trouser
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $25.50
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-04.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Classic Trench Coat
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $75.00
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-05.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Front Pocket Jumper
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $34.75
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-06.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Vintage Inspired Classic
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $93.20
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-07.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Shirt in Stretch Cotton
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $52.66
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                    {/* Block2 */}
-                                    <div className="block2">
-                                        <div className="block2-pic hov-img0">
-                                            <img src="../../../../public/assets/images/product-08.jpg" alt="IMG-PRODUCT" />
-                                            <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                Quick View
-                                            </a>
-                                        </div>
-                                        <div className="block2-txt flex-w flex-t p-t-14">
-                                            <div className="block2-txt-child1 flex-col-l ">
-                                                <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                    Pieces Metallic Printed
-                                                </a>
-                                                <span className="stext-105 cl3">
-                                                    $18.96
-                                                </span>
-                                            </div>
-                                            <div className="block2-txt-child2 flex-r p-t-3">
-                                                <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                    <img className="icon-heart1 dis-block trans-04" src="../../../../public/assets/images/icons/icon-heart-01.png" alt="ICON" />
-                                                    <img className="icon-heart2 dis-block trans-04 ab-t-l" src="../../../../public/assets/images/icons/icon-heart-02.png" alt="ICON" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </section>
             </div>
