@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import BreadCrumb from './components/BreadCrumb';
 import ProductEntity from '../../../entity/ProductEntity';
 import { getProductById } from '../../../utils/CallApi';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Form, useLocation, useNavigate } from 'react-router-dom';
 import './css/shop-detail.style.css'
 import { formatVND } from '../../../utils/FormatUtil';
+import { useForm } from 'react-hook-form';
 const ShopDetail = () => {
+    const { register, handleSubmit, setError, formState: { errors } } = useForm();
     const [product, setProduct] = useState<ProductEntity | null>();
     const location = useLocation();
     const navigate = useNavigate();
@@ -63,6 +65,10 @@ const ShopDetail = () => {
         }
     }, [product]);
 
+    const onSubmit = (data: any) => {
+        console.log(data)
+    }
+
     return (
         <React.Fragment>
             <div>
@@ -100,65 +106,72 @@ const ShopDetail = () => {
                                         {product?.productName}
                                     </h4>
                                     <span className="mtext-106 cl2">
-                                        {product ? formatVND(product?.productPrice): 'loading....'}
+                                        {product ? formatVND(product?.productPrice) : 'loading....'}
                                     </span>
                                     <p className="stext-102 cl3 p-t-23">
-                                       {product?.productDetail}
+                                        {product?.productDetail}
                                     </p>
                                     {/*  */}
-                                    <div className="p-t-33">
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-203 flex-c-m respon6">
-                                                Size
-                                            </div>
-                                            <div className="size-204 respon6-next">
-                                                <div className="custom-select-container bor8 bg0">
-                                                    <select className="custom-select" name="size">
-                                                    <option className="custom-option">Chọn size</option>
-                                                        {product?.inventoryList.map((value) => (
-                                                            <option data-id={value.productSize.sizeName} className="custom-option">{value.productSize.sizeName}</option>
-                                                        ))}
-                            
-                                                    </select>
-                                                    <div className="custom-dropDownSelect" />
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <div className="p-t-33">
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-203 flex-c-m respon6">
+                                                    Size
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-203 flex-c-m respon6">
-                                                Color
-                                            </div>
-                                            <div className="size-204 respon6-next">
-                                                <div className="custom-select-container bor8 bg0">
-                                                    <select className="custom-select" name="color">
-                                                        <option className="custom-option">Chọn màu</option>
-                                                        {product?.inventoryList.map((value) => (
-                                                            <option data-id={value.productColor.colorName} className="custom-option">{value.productColor.colorName}</option>
-                                                        ))}
-                                                    </select>
-                                                    <div className="custom-dropDownSelect" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-204 flex-w flex-m respon6-next">
-                                                <div className="wrap-num-product flex-w m-r-20 m-tb-10">
-                                                    <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i className="fs-16 zmdi zmdi-minus" />
+                                                <div className="size-204 respon6-next">
+                                                    <div className="custom-select-container bor8 bg0">
+                                                        <select className="custom-select"
+                                                            {...register('size', { required: 'Vui lòng chọn size của sản phẩm' })}>
+                                                            <option className="custom-option" value=''>Chọn size</option>
+                                                            {product?.inventoryList.map((value) => (
+                                                                <option data-id={value.productSize.sizeName} className="custom-option" value={value.productSize.productSizeId}>{value.productSize.sizeName}</option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="custom-dropDownSelect" />                  
                                                     </div>
-                                                    <input className="mtext-104 cl3 txt-center num-product" type="number" name="num-product" defaultValue={1} />
-                                                    <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i className="fs-16 zmdi zmdi-plus" />
+                                                    {errors.size?.message && <span style={{ color: 'red', margin: '10px' }}>{errors.size.message}</span>}
+                                                </div>
+                                            
+
+                                            </div>
+                                            
+
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-203 flex-c-m respon6">
+                                                    Color
+                                                </div>
+                                                <div className="size-204 respon6-next">
+                                                    <div className="custom-select-container bor8 bg0">
+                                                        <select className="custom-select" name="color">
+                                                            <option className="custom-option">Chọn màu</option>
+                                                            {product?.inventoryList.map((value) => (
+                                                                <option data-id={value.productColor.colorName} className="custom-option">{value.productColor.colorName}</option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="custom-dropDownSelect" />
                                                     </div>
                                                 </div>
-                                                <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                                    Thêm vào giỏ hàng
-                                                </button>
+                                            </div>
+
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-204 flex-w flex-m respon6-next">
+                                                    <div className="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                        <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i className="fs-16 zmdi zmdi-minus" />
+                                                        </div>
+                                                        <input className="mtext-104 cl3 txt-center num-product" type="number" name="num-product" defaultValue={1} />
+                                                        <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i className="fs-16 zmdi zmdi-plus" />
+                                                        </div>
+                                                    </div>
+                                                    <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                        Thêm vào giỏ hàng
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                     {/*  */}
                                     <div className="flex-w flex-m p-l-100 p-t-40 respon7">
                                         <div className="flex-m bor9 p-r-10 m-r-11">
@@ -257,7 +270,7 @@ const ShopDetail = () => {
                                     <div className="tab-pane fade" id="reviews" role="tabpanel">
                                         <div className="row">
                                             <div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-                                            <div className="p-b-30 m-lr-15-sm">
+                                                <div className="p-b-30 m-lr-15-sm">
                                                     {/* Review */}
                                                     {/* <div className="flex-w flex-t p-b-68">
                                                         <div className="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
