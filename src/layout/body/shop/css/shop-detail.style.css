@@ -51,3 +51,43 @@
     transform: translateY(-50%);
     pointer-events: none; /* Không cho phép click vào mũi tên */
 }
+/* Chỉnh sửa kiểu cho input số */
+input[type="number"] {
+    width: 100%;              /* Đảm bảo chiều rộng 100% */
+    padding: 7px 15px;       /* Thêm khoảng đệm cho input */
+    font-size: 16px;          /* Cỡ chữ */
+    border: 1px solid #ccc;   /* Viền input */
+    border-radius: 5px;       /* Bo góc cho viền */
+    background-color: #fff; /* Màu nền */
+    transition: all 0.3s ease; /* Hiệu ứng chuyển động khi hover hoặc focus */
+  }
+  
+  /* Hiệu ứng khi input có focus */
+  input[type="number"]:focus {
+    outline: none;              /* Bỏ outline mặc định */
+    background-color: #fff;     /* Thay đổi màu nền khi focus */
+  }
+  
+  /* Thêm hiệu ứng hover khi di chuột qua input */
+  input[type="number"]:hover {    /* Màu viền khi hover */
+ 
+  }
+  
+  /* Style cho các nút tăng/giảm (tùy thuộc vào trình duyệt) */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    width: 20px;               /* Đặt chiều rộng cho nút */
+    height: 20px;              /* Đặt chiều cao cho nút */
+    background-color: #4caf50; /* Màu nền của nút */
+    border-radius: 50%;        /* Bo tròn các góc của nút */
+    border: 1px solid #3e8e41; /* Đặt viền cho nút */
+    color: white;              /* Màu chữ (nếu có) */
+    display: block;            /* Đảm bảo nút được hiển thị dưới dạng khối */
+  }
+  
+
+  
+
+  
+
+  
