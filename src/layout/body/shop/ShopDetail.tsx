@@ -5,11 +5,14 @@ import { getProductById } from '../../../utils/CallApi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './css/shop-detail.style.css'
 import { formatVND } from '../../../utils/FormatUtil';
+import { useForm } from 'react-hook-form';
 const ShopDetail = () => {
+    const {register, handleSubmit, setError, formState: {errors}} = useForm();
     const [product, setProduct] = useState<ProductEntity | null>();
     const location = useLocation();
     const navigate = useNavigate();
-
+    const [productSize, setProductSize] = useState();
+  
     const searchParam = new URLSearchParams(location.search);
     const idString = searchParam.get("id");
     const id = idString ? parseInt(idString, 10) : NaN;
@@ -63,6 +66,10 @@ const ShopDetail = () => {
         }
     }, [product]);
 
+    const addCart = () => {
+        console.log("add cart");
+    }
+
     return (
         <React.Fragment>
             <div>
@@ -88,8 +95,6 @@ const ShopDetail = () => {
                                                     </div>
                                                 </div>
                                             ))}
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -100,10 +105,10 @@ const ShopDetail = () => {
                                         {product?.productName}
                                     </h4>
                                     <span className="mtext-106 cl2">
-                                        {product ? formatVND(product?.productPrice): 'loading....'}
+                                        {product ? formatVND(product?.productPrice) : 'loading....'}
                                     </span>
                                     <p className="stext-102 cl3 p-t-23">
-                                       {product?.productDetail}
+                                        {product?.productDetail}
                                     </p>
                                     {/*  */}
                                     <div className="p-t-33">
@@ -114,11 +119,11 @@ const ShopDetail = () => {
                                             <div className="size-204 respon6-next">
                                                 <div className="custom-select-container bor8 bg0">
                                                     <select className="custom-select" name="size">
-                                                    <option className="custom-option">Chọn size</option>
+                                                        <option className="custom-option">Chọn size</option>
                                                         {product?.inventoryList.map((value) => (
                                                             <option data-id={value.productSize.sizeName} className="custom-option">{value.productSize.sizeName}</option>
                                                         ))}
-                            
+
                                                     </select>
                                                     <div className="custom-dropDownSelect" />
                                                 </div>
@@ -153,7 +158,7 @@ const ShopDetail = () => {
                                                         <i className="fs-16 zmdi zmdi-plus" />
                                                     </div>
                                                 </div>
-                                                <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" onClick={addCart}>
                                                     Thêm vào giỏ hàng
                                                 </button>
                                             </div>
@@ -257,7 +262,7 @@ const ShopDetail = () => {
                                     <div className="tab-pane fade" id="reviews" role="tabpanel">
                                         <div className="row">
                                             <div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-                                            <div className="p-b-30 m-lr-15-sm">
+                                                <div className="p-b-30 m-lr-15-sm">
                                                     {/* Review */}
                                                     {/* <div className="flex-w flex-t p-b-68">
                                                         <div className="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
