@@ -7,6 +7,7 @@ import './css/shop-detail.style.css'
 import { formatVND } from '../../../utils/FormatUtil';
 import { useForm } from 'react-hook-form';
 const ShopDetail = () => {
+
     const {register, handleSubmit, setError, formState: {errors}} = useForm();
     const [product, setProduct] = useState<ProductEntity | null>();
     const location = useLocation();
@@ -66,8 +67,8 @@ const ShopDetail = () => {
         }
     }, [product]);
 
-    const addCart = () => {
-        console.log("add cart");
+    const onSubmit = (data: any) => {
+        console.log(data)
     }
 
     return (
@@ -111,59 +112,66 @@ const ShopDetail = () => {
                                         {product?.productDetail}
                                     </p>
                                     {/*  */}
-                                    <div className="p-t-33">
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-203 flex-c-m respon6">
-                                                Size
-                                            </div>
-                                            <div className="size-204 respon6-next">
-                                                <div className="custom-select-container bor8 bg0">
-                                                    <select className="custom-select" name="size">
-                                                        <option className="custom-option">Chọn size</option>
-                                                        {product?.inventoryList.map((value) => (
-                                                            <option data-id={value.productSize.sizeName} className="custom-option">{value.productSize.sizeName}</option>
-                                                        ))}
-
-                                                    </select>
-                                                    <div className="custom-dropDownSelect" />
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <div className="p-t-33">
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-203 flex-c-m respon6">
+                                                    Size
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-203 flex-c-m respon6">
-                                                Color
-                                            </div>
-                                            <div className="size-204 respon6-next">
-                                                <div className="custom-select-container bor8 bg0">
-                                                    <select className="custom-select" name="color">
-                                                        <option className="custom-option">Chọn màu</option>
-                                                        {product?.inventoryList.map((value) => (
-                                                            <option data-id={value.productColor.colorName} className="custom-option">{value.productColor.colorName}</option>
-                                                        ))}
-                                                    </select>
-                                                    <div className="custom-dropDownSelect" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex-w flex-r-m p-b-10">
-                                            <div className="size-204 flex-w flex-m respon6-next">
-                                                <div className="wrap-num-product flex-w m-r-20 m-tb-10">
-                                                    <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i className="fs-16 zmdi zmdi-minus" />
+                                                <div className="size-204 respon6-next">
+                                                    <div className="custom-select-container bor8 bg0">
+                                                        <select className="custom-select"
+                                                            {...register('size', { required: 'Vui lòng chọn size của sản phẩm' })}>
+                                                            <option className="custom-option" value=''>Chọn size</option>
+                                                            {product?.inventoryList.map((value) => (
+                                                                <option data-id={value.productSize.sizeName} className="custom-option" value={value.productSize.productSizeId}>{value.productSize.sizeName}</option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="custom-dropDownSelect" />                  
                                                     </div>
-                                                    <input className="mtext-104 cl3 txt-center num-product" type="number" name="num-product" defaultValue={1} />
-                                                    <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i className="fs-16 zmdi zmdi-plus" />
+                                                    {errors.size?.message && <span style={{ color: 'red', margin: '10px' }}>{errors.size.message}</span>}
+                                                </div>
+                                            
+
+                                            </div>
+                                            
+
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-203 flex-c-m respon6">
+                                                    Color
+                                                </div>
+                                                <div className="size-204 respon6-next">
+                                                    <div className="custom-select-container bor8 bg0">
+                                                        <select className="custom-select" name="color">
+                                                            <option className="custom-option">Chọn màu</option>
+                                                            {product?.inventoryList.map((value) => (
+                                                                <option data-id={value.productColor.colorName} className="custom-option">{value.productColor.colorName}</option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="custom-dropDownSelect" />
                                                     </div>
                                                 </div>
-                                                <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" onClick={addCart}>
-                                                    Thêm vào giỏ hàng
-                                                </button>
+                                            </div>
+
+                                            <div className="flex-w flex-r-m p-b-10">
+                                                <div className="size-204 flex-w flex-m respon6-next">
+                                                    <div className="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                        <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i className="fs-16 zmdi zmdi-minus" />
+                                                        </div>
+                                                        <input className="mtext-104 cl3 txt-center num-product" type="number" name="num-product" defaultValue={1} />
+                                                        <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i className="fs-16 zmdi zmdi-plus" />
+                                                        </div>
+                                                    </div>
+                                                    <button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                        Thêm vào giỏ hàng
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                     {/*  */}
                                     <div className="flex-w flex-m p-l-100 p-t-40 respon7">
                                         <div className="flex-m bor9 p-r-10 m-r-11">
