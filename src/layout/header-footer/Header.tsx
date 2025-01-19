@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import { getCart } from '../../utils/AddCartUtil';
 
 const Header = () => {
+  const [quantityCart, setQuantityCart] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cart = getCart();
+      if (cart.length > 0) {
+        setQuantityCart(cart.length)
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+  })
+
   return (
     <React.Fragment>
+      <ToastContainer />
       {/* Header */}
-      <header style={{marginBottom : '100px'}}>
+      <header>
         {/* Header desktop */}
         <div className="container-menu-desktop">
 
@@ -44,7 +60,7 @@ const Header = () => {
                 <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                   <i className="zmdi zmdi-search" />
                 </div>
-                <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify={2}>
+                <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify={quantityCart}>
                   <i className="zmdi zmdi-shopping-cart" />
                 </div>
                 <a href="#" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify={0}>
@@ -65,7 +81,7 @@ const Header = () => {
             <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
               <i className="zmdi zmdi-search" />
             </div>
-            <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify={2}>
+            <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify={quantityCart}>
               <i className="zmdi zmdi-shopping-cart" />
             </div>
             <a href="#" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify={0}>

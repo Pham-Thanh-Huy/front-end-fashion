@@ -3327,5 +3327,11 @@ input.num-product::-webkit-inner-spin-button {
   .respon3 {
     padding: 20px;
   }
+  
+}
 
+@media (min-width: 1024px)  {
+  header{
+    margin-bottom: 100px;
+  }
 }

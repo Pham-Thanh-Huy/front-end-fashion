@@ -4,15 +4,15 @@ import Header from "./layout/header-footer/Header";
 import CartUtils from "./layout/layout-utils/CartUtils";
 import Footer from "./layout/header-footer/Footer";
 import Home from "./layout/body/home/Home";
-// import Shop from "./layout/body/shop/Shop";
 import ShopDetail from "./layout/body/shop/ShopDetail";
 import LoadScripts from "./config/LoadScripts";
 import Contact from "./layout/body/contact/Contact";
 import Blog from "./layout/body/blog/Blog";
-import Cart from "./layout/body/cart/Cart";
 import BlogDetail from "./layout/body/blog/BlogDetail";
 import About from "./layout/body/about/About";
 import Shop from "./layout/body/shop/Shop";
+import CartComponents from "./layout/body/cart/CartComponents";
+import Checkout from "./layout/body/checkout/Checkout";
 
 function App() {
   return (
@@ -27,7 +27,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog-detail" element={<BlogDetail />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<CartComponents />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/about" element={<About />} />
         </Routes>
         <Footer />

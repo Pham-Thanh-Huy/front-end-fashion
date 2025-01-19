@@ -1,26 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from './components/BreadCrumb';
 import ProductEntity from '../../../entity/ProductEntity';
-import {getProductById} from '../../../utils/CallApi';
-import {useLocation, useNavigate} from 'react-router-dom';
+import { getProductById } from '../../../utils/CallApi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './css/shop-detail.style.css'
-import {formatVND} from '../../../utils/FormatUtil';
-import {useForm} from 'react-hook-form';
-import {addCart} from "../../../utils/AddCartUtil.ts";
+import { formatVND } from '../../../utils/FormatUtil';
+import { useForm } from 'react-hook-form';
+import { addCart } from "../../../utils/AddCartUtil.ts";
+import { toast, ToastContainer } from 'react-toastify';
 
 const ShopDetail = () => {
 
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [product, setProduct] = useState<ProductEntity | null>();
     const location = useLocation();
     const navigate = useNavigate();
     const searchParam = new URLSearchParams(location.search);
     const idString = searchParam.get("id");
     const id = idString ? parseInt(idString, 10) : NaN;
+    const [quantity, setQuantity] = useState<number | null>(null);
 
     const [inventoryId, setInventoryId] = useState<number | null>(null);
-
-
+    const [productSizeId, setProductSizeId] = useState<number>(0);
+    const [productColorId, setProductColorId] = useState<number>(0);
     useEffect(() => {
         if (isNaN(id)) {
             navigate(-1); // Quay lại nếu id không hợp lệ
@@ -39,6 +41,14 @@ const ShopDetail = () => {
 
 
     }, [id, navigate, inventoryId]); // Chạy khi id thay đổi
+
+    useEffect(() => {
+        const inventory = product?.inventoryList.find(value => value.productColor.productColorId === productColorId && value.productSize.productSizeId === productSizeId);
+
+        if (inventory) setQuantity(inventory.quantity);
+        else setQuantity(null)
+
+    }, [productSizeId, productColorId])
 
     useEffect(() => {
         // Chỉ khởi tạo slick khi product đã có và imageList là mảng hợp lệ
@@ -79,7 +89,7 @@ const ShopDetail = () => {
 
             if (add) {
                 // Nếu addCart trả về true, thực hiện hành động cần thiết
-                alert("Sản phẩm đã được thêm vào giỏ hàng.");
+                toast.success("Sản phẩm đã được thêm vào giỏ hàng.");
             }
 
         }
@@ -89,7 +99,7 @@ const ShopDetail = () => {
     return (<React.Fragment>
         <div>
             {/* breadcrumb */}
-            <BreadCrumb/>
+            <BreadCrumb />
             {/* Product Detail */}
             <section className="sec-product-detail bg0 p-t-65 p-b-60">
                 <div className="container">
@@ -97,16 +107,16 @@ const ShopDetail = () => {
                         <div className="col-md-6 col-lg-7 p-b-30">
                             <div className="p-l-25 p-r-30 p-lr-0-lg">
                                 <div className="wrap-slick3 flex-sb flex-w">
-                                    <div className="wrap-slick3-dots"/>
-                                    <div className="wrap-slick3-arrows flex-sb-m flex-w"/>
+                                    <div className="wrap-slick3-dots" />
+                                    <div className="wrap-slick3-arrows flex-sb-m flex-w" />
                                     <div className="slick3 gallery-lb">
                                         {product?.imageList.map((value) => (
                                             <div className="item-slick3" data-thumb={value.imageUrl}>
                                                 <div className="wrap-pic-w pos-relative">
-                                                    <img src={value.imageUrl} alt="IMG-PRODUCT"/>
+                                                    <img src={value.imageUrl} alt="IMG-PRODUCT" />
                                                     <a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                                       href={value.imageUrl}>
-                                                        <i className="fa fa-expand"/>
+                                                        href={value.imageUrl}>
+                                                        <i className="fa fa-expand" />
                                                     </a>
                                                 </div>
                                             </div>))}
@@ -120,8 +130,11 @@ const ShopDetail = () => {
                                     {product?.productName}
                                 </h4>
                                 <span className="mtext-106 cl2">
-                                        {product ? formatVND(product?.productPrice) : 'loading....'}
-                                    </span>
+                                    {product ? formatVND(product?.productPrice) : 'loading....'}
+                                </span>
+                                <p className="cl2">
+                                    Số lượng: <b>{quantity === null ? 'Vui chọn màu sắc và size đầy đủ' : quantity < 0 ? 'Hết hàng' : quantity}</b>
+                                </p>
                                 <p className="stext-102 cl3 p-t-23">
                                     {product?.productDetail}
                                 </p>
@@ -137,9 +150,10 @@ const ShopDetail = () => {
                                                 <div className="custom-select-container bor8 bg0">
                                                     <select
                                                         className="custom-select"
-                                                        {...register('color', {required: 'Vui lòng chọn màu sản phẩm'})}
+                                                        {...register('color', { required: 'Vui lòng chọn màu sản phẩm' })}
                                                         onChange={(e) => {
                                                             const selectedColorId = e.target.value;
+                                                            setProductColorId(Number(selectedColorId));
                                                             if (selectedColorId === '') {
                                                                 setInventoryId(null);
                                                             } else {
@@ -155,16 +169,16 @@ const ShopDetail = () => {
                                                             Chọn màu
                                                         </option>
                                                         {product?.inventoryList.map((value) => (<option
-                                                                key={value.productColor.productColorId}
-                                                                className="custom-option"
-                                                                value={value.productColor.productColorId}
-                                                                data-inventory-id={value.inventoryId}
-                                                            >
-                                                                {value.productColor.colorName}
-                                                            </option>))}
+                                                            key={value.productColor.productColorId}
+                                                            className="custom-option"
+                                                            value={value.productColor.productColorId}
+                                                            data-inventory-id={value.inventoryId}
+                                                        >
+                                                            {value.productColor.colorName}
+                                                        </option>))}
                                                     </select>
 
-                                                    <div className="custom-dropDownSelect"/>
+                                                    <div className="custom-dropDownSelect" />
                                                 </div>
                                                 {errors.color?.message && <span
                                                     style={{
@@ -182,25 +196,27 @@ const ShopDetail = () => {
                                             <div className="size-204 respon6-next">
                                                 <div className="custom-select-container bor8 bg0">
                                                     <select className="custom-select"
-                                                            {...register('size', {required: 'Vui lòng chọn size của sản phẩm'})}>
+                                                        {...register('size', { required: 'Vui lòng chọn size của sản phẩm' })}
+                                                        onChange={(e) => setProductSizeId(Number(e.target.value))}
+                                                    >
                                                         <option className="custom-option" value=''>Chọn size
                                                         </option>
                                                         {inventoryId != null ? (product?.inventoryList
                                                             .filter((product) => product.inventoryId === inventoryId)
                                                             .map((value) => (
                                                                 <option data-id={value.productSize.sizeName}
-                                                                        key={value.productSize.productSizeId}
-                                                                        className="custom-option"
-                                                                        value={value.productSize.productSizeId}>
+                                                                    key={value.productSize.productSizeId}
+                                                                    className="custom-option"
+                                                                    value={value.productSize.productSizeId}>
                                                                     {value.productSize.sizeName}
                                                                 </option>))) : (
                                                             <option className="custom-option" value=''>Chọn màu trước
                                                                 khi chọn size</option>)}
                                                     </select>
-                                                    <div className="custom-dropDownSelect"/>
+                                                    <div className="custom-dropDownSelect" />
                                                 </div>
                                                 {errors.size?.message && <div
-                                                    style={{color: 'red', margin: '10px'}}><>{errors.size.message}</>
+                                                    style={{ color: 'red', margin: '10px' }}><>{errors.size.message}</>
                                                 </div>}
                                             </div>
                                         </div>
@@ -216,8 +232,8 @@ const ShopDetail = () => {
                                                             value: 1, message: 'Số lượng sản phẩm phải lớn hơn 1'
                                                         }, valueAsNumber: true
                                                     })}
-                                                           min={0}
-                                                           defaultValue={1}
+                                                        min={0}
+                                                        defaultValue={1}
                                                     />
                                                 </div>
                                                 {errors.quantity?.message && <span style={{
@@ -228,8 +244,8 @@ const ShopDetail = () => {
 
                                         <div className="flex-w p-b-10">
                                             <div className="size-204 flex-w flex-m respon6-next">
-                                                <button style={{marginLeft: '10px'}}
-                                                        className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                <button style={{ marginLeft: '10px' }}
+                                                    className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                                     Thêm vào giỏ hàng
                                                 </button>
                                             </div>
@@ -240,25 +256,25 @@ const ShopDetail = () => {
                                 <div className="flex-w flex-m p-l-100 p-t-40 respon7">
                                     <div className="flex-m bor9 p-r-10 m-r-11">
                                         <a href="#"
-                                           className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-                                           data-tooltip="Add to Wishlist">
-                                            <i className="zmdi zmdi-favorite"/>
+                                            className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+                                            data-tooltip="Add to Wishlist">
+                                            <i className="zmdi zmdi-favorite" />
                                         </a>
                                     </div>
                                     <a href="#"
-                                       className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                       data-tooltip="Facebook">
-                                        <i className="fa fa-facebook"/>
+                                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                        data-tooltip="Facebook">
+                                        <i className="fa fa-facebook" />
                                     </a>
                                     <a href="#"
-                                       className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                       data-tooltip="Twitter">
-                                        <i className="fa fa-twitter"/>
+                                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                        data-tooltip="Twitter">
+                                        <i className="fa fa-twitter" />
                                     </a>
                                     <a href="#"
-                                       className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                       data-tooltip="Google Plus">
-                                        <i className="fa fa-google-plus"/>
+                                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                        data-tooltip="Google Plus">
+                                        <i className="fa fa-google-plus" />
                                     </a>
                                 </div>
                             </div>
@@ -297,44 +313,44 @@ const ShopDetail = () => {
                                         <div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                                             <ul className="p-lr-28 p-lr-15-sm">
                                                 <li className="flex-w flex-t p-b-7">
-                                                        <span className="stext-102 cl3 size-205">
-                                                            Weight
-                                                        </span>
+                                                    <span className="stext-102 cl3 size-205">
+                                                        Weight
+                                                    </span>
                                                     <span className="stext-102 cl6 size-206">
-                                                            0.79 kg
-                                                        </span>
+                                                        0.79 kg
+                                                    </span>
                                                 </li>
                                                 <li className="flex-w flex-t p-b-7">
-                                                        <span className="stext-102 cl3 size-205">
-                                                            Dimensions
-                                                        </span>
+                                                    <span className="stext-102 cl3 size-205">
+                                                        Dimensions
+                                                    </span>
                                                     <span className="stext-102 cl6 size-206">
-                                                            110 x 33 x 100 cm
-                                                        </span>
+                                                        110 x 33 x 100 cm
+                                                    </span>
                                                 </li>
                                                 <li className="flex-w flex-t p-b-7">
-                                                        <span className="stext-102 cl3 size-205">
-                                                            Materials
-                                                        </span>
+                                                    <span className="stext-102 cl3 size-205">
+                                                        Materials
+                                                    </span>
                                                     <span className="stext-102 cl6 size-206">
-                                                            60% cotton
-                                                        </span>
+                                                        60% cotton
+                                                    </span>
                                                 </li>
                                                 <li className="flex-w flex-t p-b-7">
-                                                        <span className="stext-102 cl3 size-205">
-                                                            Color
-                                                        </span>
+                                                    <span className="stext-102 cl3 size-205">
+                                                        Color
+                                                    </span>
                                                     <span className="stext-102 cl6 size-206">
-                                                            Black, Blue, Grey, Green, Red, White
-                                                        </span>
+                                                        Black, Blue, Grey, Green, Red, White
+                                                    </span>
                                                 </li>
                                                 <li className="flex-w flex-t p-b-7">
-                                                        <span className="stext-102 cl3 size-205">
-                                                            Size
-                                                        </span>
+                                                    <span className="stext-102 cl3 size-205">
+                                                        Size
+                                                    </span>
                                                     <span className="stext-102 cl6 size-206">
-                                                            XL, L, M, S
-                                                        </span>
+                                                        XL, L, M, S
+                                                    </span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -416,12 +432,12 @@ const ShopDetail = () => {
                     </div>
                 </div>
                 <div className="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-                        <span className="stext-107 cl6 p-lr-25">
-                            {product?.productCode}
-                        </span>
                     <span className="stext-107 cl6 p-lr-25">
-                            Danh mục: {product?.categoryProduct.categoryName}
-                        </span>
+                        {product?.productCode}
+                    </span>
+                    <span className="stext-107 cl6 p-lr-25">
+                        Danh mục: {product?.categoryProduct.categoryName}
+                    </span>
                 </div>
             </section>
         </div>

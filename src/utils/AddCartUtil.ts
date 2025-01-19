@@ -1,5 +1,6 @@
+import { toast } from "react-toastify";
 import Cart from "../entity/Cart";
-import {getProductById} from "./CallApi";
+import { getProductById } from "./CallApi";
 
 export const addCart = async (productId: number, quantity: number, productSizeId: number, productColorId: number): Promise<boolean> => {
     // Get cart from localStorage
@@ -8,7 +9,7 @@ export const addCart = async (productId: number, quantity: number, productSizeId
     // Get product details from API
     const product = await getProductById(productId);
     if (!product) {
-        alert('Không tìm thấy sản phẩm');
+        toast.error('Không tìm thấy sản phẩm');
         return false;
     }
 
@@ -24,13 +25,13 @@ export const addCart = async (productId: number, quantity: number, productSizeId
         inventory.productSize.productSizeId === productSizeId
     );
 
-    if(!inventory){
-        alert('Sản phẩm không tồn tại màu sắc và size này');
+    if (!inventory) {
+        toast.error('Sản phẩm không tồn tại màu sắc và size này');
         return false;
     }
 
     if (inventory.quantity < quantity) {
-        alert('Sản phẩm trong kho ít hơn sản phẩm bạn định mua');
+        toast.error('Sản phẩm trong kho ít hơn sản phẩm bạn định mua');
         return false;
     }
 
@@ -50,7 +51,7 @@ export const addCart = async (productId: number, quantity: number, productSizeId
             productColorId: inventory.productColor.productColorId,
             productColorName: inventory.productColor.colorName,
             productSizeId: inventory.productSize.productSizeId,
-            productSizeName:inventory.productSize.sizeName,
+            productSizeName: inventory.productSize.sizeName,
             createdAt: product.createdAt,
             quantity: quantity,
             imageUrl: product.imageList[0]?.imageUrl || '',
@@ -67,4 +68,33 @@ export const addCart = async (productId: number, quantity: number, productSizeId
 export const getCart = (): Cart[] => {
     const carts: Cart[] = JSON.parse(localStorage.getItem('cart') || '[]');
     return carts;
+}
+
+export const deleteAllCartInLocalStorage = (): boolean => {
+    try {
+        localStorage.removeItem('cart');
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export const deleteCartByProductId = (productId: number, productSizeId: number, productColorId: number): boolean => {
+    try {
+        const carts: Cart[] = JSON.parse(localStorage.getItem('cart') || '[]');
+        //Lấy cart tồn tại bằng cách lấy index để remove trong mảng
+        const existingCartItem = carts.findIndex(product =>
+            product.productId === productId &&
+            product.productColorId === productColorId &&
+            product.productSizeId === productSizeId
+        );
+        if (existingCartItem !== -1) {
+            carts.splice(existingCartItem, 1);
+            localStorage.setItem('cart', JSON.stringify(carts))
+            return true
+        } else { return false };
+
+    } catch {
+        return false;
+    }
 }

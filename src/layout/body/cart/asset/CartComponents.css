@@ -1,0 +1,142 @@
+.cart-container {
+  overflow-x: auto; /* Cho phép cuộn ngang nếu cần */
+}
+
+.cart-wide {
+  max-width: 1140px; /* Khung chính không vượt quá kích thước màn hình */
+  margin: 0 auto;
+}
+
+.cart-wrapper {
+  display: block; /* Sử dụng block layout */
+  gap: 0; /* Loại bỏ khoảng cách nếu cần */
+}
+
+.cart-table {
+  width: 100%; /* Đảm bảo bảng luôn vừa với khung */
+  border-collapse: collapse;
+  table-layout: auto; /* Cho phép bảng tự điều chỉnh kích thước cột */
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  white-space: nowrap; /* Tránh chữ xuống dòng */
+}
+
+.cart-table th {
+  background-color: #f3f3f3;
+  font-weight: bold;
+}
+
+.cart-item-image img {
+  width: 50px;
+  height: auto;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+}
+
+.cart-actions {
+  display: block; /* Sắp xếp các nút dọc */
+  margin-top: 20px;
+}
+
+.cart-actions button {
+  margin-bottom: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.coupon-input {
+  width: calc(100% - 20px); /* Đảm bảo input không quá rộng */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.btn-feature {
+  display: flex;
+  justify-content: space-between; /* Đặt các nút ở 2 bên */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.btn-apply-coupon,
+.btn-update-cart,
+.btn-checkout,
+.btn-delete-cart {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: white;
+  color: black;
+  border: 1px solid #333;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-apply-coupon:hover,
+.btn-update-cart:hover,
+.btn-checkout:hover,
+.btn-delete-cart:hover {
+  background-color: black;
+  color: white;
+}
+
+.cart-summary {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 0 10px; /* Tăng khoảng cách lề trên màn hình nhỏ */
+  }
+
+  .cart-table {
+    width: auto; /* Để bảng co lại nếu cần */
+  }
+
+  .cart-table th,
+  .cart-table td {
+    font-size: 12px; /* Giảm kích thước chữ */
+  }
+
+  .quantity-input {
+    width: 40px; /* Thu nhỏ input */
+  }
+
+  .cart-actions {
+    flex-wrap: wrap;
+    text-align: center; /* Canh giữa các nút */
+  }
+
+  .btn-apply-coupon,
+  .btn-update-cart,
+  .btn-checkout,
+  .btn-delete-cart{
+    padding: 8px 15px;
+    margin: 5px 0; /* Thêm khoảng cách giữa các nút */
+  }
+
+  .cart-summary {
+    margin-top: 20px;
+  }
+}

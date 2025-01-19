@@ -1,0 +1,139 @@
+/* App.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.checkout-container {
+    width: 70%;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h2 {
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.cart-section {
+    margin-bottom: 20px;
+}
+
+.cart-items {
+    max-height: 200px;
+    /* Chiều cao tối đa */
+    overflow-y: auto;
+    /* Cho phép cuộn */
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.item-price {
+    color: #ff5722;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-image{
+    width: 50px;
+    height: 70px;
+}
+
+.checkout-button {
+    background-color: rgba(212, 208, 208, 0.5);
+    color: black;
+
+    padding: 15px;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+    background-color: black;
+    color: #fff;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.cart-items::-webkit-scrollbar {
+    width: 8px;
+    /* Độ rộng của thanh cuộn */
+    background-color: #f0f0f0;
+    /* Màu nền phía sau thanh cuộn */
+    border-radius: 4px;
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+    background-color: #333;
+    /* Màu của thanh cuộn */
+    border-radius: 4px;
+    /* Bo góc */
+    border: 2px solid #f0f0f0;
+    /* Viền xung quanh để tách biệt với nền */
+}
+
+.cart-items::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
+    /* Màu khi hover */
+}
+
+.cart-items::-webkit-scrollbar-track {
+    background-color: #fafafa;
+    /* Màu nền của đường cuộn */
+    border-radius: 4px;
+}
