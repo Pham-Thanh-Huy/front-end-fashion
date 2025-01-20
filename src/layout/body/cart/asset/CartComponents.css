@@ -82,12 +82,21 @@
   cursor: pointer;
 }
 
+.btn-checkout a{
+  color: black;
+}
+
+.btn-checkout a:hover{
+  color: white !important;
+}
+
+
 .btn-apply-coupon:hover,
 .btn-update-cart:hover,
 .btn-checkout:hover,
 .btn-delete-cart:hover {
   background-color: black;
-  color: white;
+  color: white ;
 }
 
 .cart-summary {

@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./layout/header-footer/Header";
 import CartUtils from "./layout/layout-utils/CartUtils";
@@ -13,6 +12,7 @@ import About from "./layout/body/about/About";
 import Shop from "./layout/body/shop/Shop";
 import CartComponents from "./layout/body/cart/CartComponents";
 import Checkout from "./layout/body/checkout/Checkout";
+import Login from "./layout/body/login/Login.tsx";
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
           <Route path="/cart" element={<CartComponents />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />}/>
         </Routes>
         <Footer />
         <LoadScripts />

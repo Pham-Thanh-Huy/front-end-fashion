@@ -1,0 +1,113 @@
+/* Đặt container chính giữa màn hình */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Style cho form */
+.login-form {
+    background-color: #fff;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 480px; /* Đảm bảo form đủ rộng */
+    transform: translateY(-50px);
+    animation: slideIn 0.6s ease-in-out forwards;
+}
+
+/* Hiệu ứng slide in khi form load */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tiêu đề form */
+.form-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Các input fields */
+.input-group {
+    margin-bottom: 20px;
+    display: block; /* Đảm bảo label và input nằm trên cùng một dòng */
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #333;
+    display: block; /* Đặt label và input theo chiều dọc */
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+/* Tạo hiệu ứng focus cho input */
+.input-group input:focus {
+    border-color: black;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(38, 37, 37, 0.92);
+    outline: none;
+}
+
+/* Hiệu ứng khi di chuột vào input */
+.input-group input:hover {
+    border-color: black;
+}
+
+/* Nút đăng nhập (Đen trắng) */
+.login-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+}
+
+.login-button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+/* Giao diện rộng rãi hơn cho form */
+@media (min-width: 768px) {
+    .login-form {
+        max-width: 600px;  /* Tăng độ rộng form trên màn hình lớn hơn */
+    }
+}

@@ -7,7 +7,7 @@ import './css/shop-detail.style.css'
 import { formatVND } from '../../../utils/FormatUtil';
 import { useForm } from 'react-hook-form';
 import { addCart } from "../../../utils/AddCartUtil.ts";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const ShopDetail = () => {
 

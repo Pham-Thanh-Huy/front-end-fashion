@@ -11,9 +11,10 @@ interface User {
     userImage: string;
     imageUrl: string;
     username: string;
-    authorizeList: { 
-        authorizeId :  number,
-        authorizeName: string; }[]; // Danh sách các quyền của user
+    authorizeList: {
+        authorizeId: number,
+        authorizeName: string;
+    }[]; // Danh sách các quyền của user
 }
 
 export default User;

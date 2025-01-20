@@ -1,150 +1,141 @@
-import React, { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
-import { getCart } from '../../utils/AddCartUtil';
+import React, {useEffect, useState} from 'react';
+import {ToastContainer} from 'react-toastify';
+import {getCart} from '../../utils/AddCartUtil';
+import {jwtDecode} from "jwt-decode";
+import {getUserById} from "../../utils/CallApi.ts";
+import User from "../../entity/User.ts";
+
 
 const Header = () => {
-  const [quantityCart, setQuantityCart] = useState<number>(0);
+    const [quantityCart, setQuantityCart] = useState<number>(0);
+    const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const cart = getCart();
-      if (cart.length > 0) {
-        setQuantityCart(cart.length)
-      }
-    }, 1000)
 
-    return () => clearInterval(interval)
-  })
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const parseToken: any = jwtDecode(token);
+                const userId = parseToken?.userId;
 
-  return (
-    <React.Fragment>
-      <ToastContainer />
-      {/* Header */}
-      <header>
-        {/* Header desktop */}
-        <div className="container-menu-desktop">
+                // Gọi getUserById và đợi kết quả
+                const fetchedUser = await getUserById(userId, token);
+                setUser(fetchedUser);
 
-          <div className="wrap-menu-desktop">
-            <nav className="limiter-menu-desktop container">
-              {/* Logo desktop */}
-              <a href="/" className="logo">
-                <img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO" />
-              </a>
-              {/* Menu desktop */}
-              <div className="menu-desktop">
-                <ul className="main-menu">
-                  <li className="active-menu">
-                    <a href="/">Trang chủ</a>
-                    <ul className="sub-menu">
-                      <li><a href="/">Homepage 1</a></li>
-                      <li><a href="/">Homepage 2</a></li>
-                      <li><a href="/">Homepage 3</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="shop">Sản phẩm</a>
-                  </li>
-                  <li>
-                    <a href="blog">Tin tức</a>
-                  </li>
-                  <li>
-                    <a href="about">Về chúng tôi</a>
-                  </li>
-                  <li>
-                    <a href="contact">Liên hệ</a>
-                  </li>
-                </ul>
-              </div>
-              {/* Icon header */}
-              <div className="wrap-icon-header flex-w flex-r-m">
-                <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                  <i className="zmdi zmdi-search" />
+            }
+        };
+
+        fetchUser(); // Gọi hàm fetchUser khi component mount
+        // Cập nhật số lượng giỏ hàng
+        const interval = setInterval(() => {
+            const cart = getCart();
+            if (cart.length > 0) {
+                setQuantityCart(cart.length);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleLogout = () => {
+       localStorage.removeItem('token');
+       window.location.reload();
+    };
+
+    return (<React.Fragment>
+        <ToastContainer/>
+        {/* Header */}
+        <header>
+            {/* Header desktop */}
+            <div className="container-menu-desktop">
+                <div className="wrap-menu-desktop">
+                    <nav className="limiter-menu-desktop container">
+                        {/* Logo desktop */}
+                        <a href="/" className="logo">
+                            <img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/>
+                        </a>
+                        {/* Menu desktop */}
+                        <div className="menu-desktop">
+                            <ul className="main-menu">
+                                <li className="active-menu">
+                                    <a href="/">Trang chủ</a>
+                                    <ul className="sub-menu">
+                                        <li><a href="/">Homepage 1</a></li>
+                                        <li><a href="/">Homepage 2</a></li>
+                                        <li><a href="/">Homepage 3</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="shop">Sản phẩm</a></li>
+                                <li><a href="blog">Tin tức</a></li>
+                                <li><a href="about">Về chúng tôi</a></li>
+                                <li><a href="contact">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                        {/* Icon header */}
+                        <div className="wrap-icon-header flex-w flex-r-m">
+                            {user ? (<div className="user-info">
+                                <span>Xin chào <b>{user?.lastName + " " + user?.firstName}</b></span> | {" "}
+                                <button onClick={handleLogout}>Đăng xuất</button>
+
+                            </div>) : (<a href="/login" className="login-link">Đăng nhập</a>)}
+                            <div
+                                className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                                <i className="zmdi zmdi-search"/>
+                            </div>
+                            <div
+                                className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+                                data-notify={quantityCart}>
+                                <i className="zmdi zmdi-shopping-cart"/>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-                <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify={quantityCart}>
-                  <i className="zmdi zmdi-shopping-cart" />
+            </div>
+            {/* Header Mobile */}
+            <div className="wrap-header-mobile">
+                <div className="logo-mobile">
+                    <a href="index.html"><img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/></a>
                 </div>
-                <a href="#" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify={0}>
-                  <i className="zmdi zmdi-favorite-outline" />
-                </a>
-              </div>
-            </nav>
-          </div>
-        </div>
-        {/* Header Mobile */}
-        <div className="wrap-header-mobile">
-          {/* Logo moblie */}
-          <div className="logo-mobile">
-            <a href="index.html"><img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO" /></a>
-          </div>
-          {/* Icon header */}
-          <div className="wrap-icon-header flex-w flex-r-m m-r-15">
-            <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-              <i className="zmdi zmdi-search" />
+                <div  className="wrap-icon-header flex-w flex-r-m m-r-15">
+                    <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                        <i className="zmdi zmdi-search"/>
+                    </div>
+                    <div
+                        className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+                        data-notify={quantityCart}>
+                        <i className="zmdi zmdi-shopping-cart"/>
+                    </div>
+                    <div style={{padding:'10px'}}> </div>
+                    {user ? (<div style={{width:'200px'}}  className="user-info">
+                        <span>Xin chào {user?.lastName + " " + user?.firstName}</span>
+                        <button onClick={handleLogout}>Đăng xuất</button>
+                    </div>) : (
+                        <a style={{color: 'black !important'}} href="/login" className="login-link">Đăng nhập</a>)}
+                </div>
             </div>
-            <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify={quantityCart}>
-              <i className="zmdi zmdi-shopping-cart" />
-            </div>
-            <a href="#" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify={0}>
-              <i className="zmdi zmdi-favorite-outline" />
-            </a>
-          </div>
-          {/* Button show menu */}
-          <div className="btn-show-menu-mobile hamburger hamburger--squeeze">
-            <span className="hamburger-box">
-              <span className="hamburger-inner" />
-            </span>
-          </div>
-        </div>
-        {/* Menu Mobile */}
-        <div className="menu-mobile">
-
-          <ul className="main-menu-m">
-            <li>
-              <a href="/">Home</a>
-              <ul className="sub-menu-m">
-                <li><a href="/">Homepage 1</a></li>
-                <li><a href="/">Homepage 2</a></li>
-                <li><a href="/">Homepage 3</a></li>
-              </ul>
-              <span className="arrow-main-menu-m">
-                <i className="fa fa-angle-right" aria-hidden="true" />
+            {/* Menu Mobile */}
+            <div className="menu-mobile">
+                <ul className="main-menu-m">
+                    <li>
+                        <a href="/">Home</a>
+                        <ul className="sub-menu-m">
+                            <li><a href="/">Homepage 1</a></li>
+                            <li><a href="/">Homepage 2</a></li>
+                            <li><a href="/">Homepage 3</a></li>
+                        </ul>
+                        <span className="arrow-main-menu-m">
+                <i className="fa fa-angle-right" aria-hidden="true"/>
               </span>
-            </li>
-            <li>
-              <a href="shop">Shop</a>
-            </li>
-            <li>
-              <a href="cart" className="label1 rs1" data-label1="hot">Features</a>
-            </li>
-            <li>
-              <a href="blog">Blog</a>
-            </li>
-            <li>
-              <a href="about">About</a>
-            </li>
-            <li>
-              <a href="contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-        {/* Modal Search */}
-        <div className="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-          <div className="container-search-header">
-            <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-              <img src="images/icons/icon-close2.png" alt="CLOSE" />
-            </button>
-            <form className="wrap-search-header flex-w p-l-15">
-              <button className="flex-c-m trans-04">
-                <i className="zmdi zmdi-search" />
-              </button>
-              <input className="plh3" type="text" name="search" placeholder="Search..." />
-            </form>
-          </div>
-        </div>
-      </header>
-
-    </React.Fragment>
-  );
+                    </li>
+                    <li><a href="shop">Shop</a></li>
+                    <li><a href="cart" className="label1 rs1" data-label1="hot">Features</a></li>
+                    <li><a href="blog">Blog</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="contact">Contact</a></li>
+                </ul>
+            </div>
+        </header>
+    </React.Fragment>);
 };
 
 export default Header;

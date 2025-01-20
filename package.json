@@ -17,6 +17,7 @@
     "front-end-fashion": "file:",
     "isotope-layout": "^3.0.6",
     "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "magnific-popup": "^1.2.0",
     "moment": "^2.30.1",
     "perfect-scrollbar": "^1.5.6",

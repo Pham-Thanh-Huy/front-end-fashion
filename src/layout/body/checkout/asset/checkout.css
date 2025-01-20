@@ -3,7 +3,6 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
 }
 
 .checkout-container {
@@ -15,7 +14,6 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 h2 {
@@ -37,7 +35,6 @@ h2 {
     border: 1px solid #f0f0f0;
     padding: 10px;
     border-radius: 5px;
-    background-color: #fafafa;
 }
 
 .cart-item {
@@ -93,9 +90,8 @@ input {
 }
 
 .checkout-button {
-    background-color: rgba(212, 208, 208, 0.5);
-    color: black;
-
+    background-color: black;
+    color: #fff;
     padding: 15px;
     width: 100%;
     font-size: 1rem;
@@ -105,8 +101,8 @@ input {
 }
 
 .checkout-button:hover {
-    background-color: black;
-    color: #fff;
+    background-color: rgba(212, 208, 208, 0.5);
+    color: black;
 }
 
 /* Tùy chỉnh thanh cuộn */
@@ -136,4 +132,31 @@ input {
     background-color: #fafafa;
     /* Màu nền của đường cuộn */
     border-radius: 4px;
+}
+
+
+/* Style cho các dropdown select */
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+input:focus{
+    border: 1px solid black;
+}
+
+select:focus {
+    border-color: black; /* Màu border khi focus */
+    outline: none;
+}
+
+/* Thêm padding và margin cho label */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
 }
