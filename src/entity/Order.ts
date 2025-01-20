@@ -48,7 +48,6 @@ interface Orders {
         };
     }[];
 
-
 }
 
 export default Orders;

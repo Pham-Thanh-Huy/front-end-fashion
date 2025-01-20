@@ -3,6 +3,7 @@ import {ApiDomain} from "./ApiUtils";
 import User from "../entity/User.ts";
 import {DeliveryMethod} from "../entity/DeliveryMethod.ts";
 import {PaymentMethod} from "../entity/PaymentMethod.ts";
+import Orders from "../entity/Order.ts";
 
 export async function getAllProducts(): Promise<ProductEntity[]> {
     try {
@@ -108,3 +109,30 @@ export const getAllPaymentMethod = async (): PaymentMethod[] => {
     return paymentMethod;
 };
 
+
+export const addOrderApiUtils = async (json: string, userId: number): Promise<Orders | null> => {
+    let order: Orders | null = null;
+    try {
+        const response = await fetch(`${ApiDomain}/api/order/add?userId=${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: json
+        });
+
+        const data = await response.json();
+        if (data.code === 200) {
+            order = data.data;
+            localStorage.removeItem('cart') 
+        } else {
+            console.log(`[ERROR-TO-FETCH-ADD-ORDER] ${data.message}`);
+            order = null;
+        }
+    } catch (exception) {
+        console.log(`[ERROR-TO-FETCH-ADD-ORDER] ${exception}`);
+        order = null;
+    }
+
+    return order;
+};

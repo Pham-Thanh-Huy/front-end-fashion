@@ -1,24 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './asset/checkout.css'
-import {getCart} from '../../../utils/AddCartUtil';
+import { getCart } from '../../../utils/AddCartUtil';
 import Cart from '../../../entity/Cart';
-import {formatVND} from '../../../utils/FormatUtil';
-import {jwtDecode} from "jwt-decode";
-import {getAllDeliveryMethod, getAllPaymentMethod, getUserById} from "../../../utils/CallApi.ts";
+import { formatVND } from '../../../utils/FormatUtil';
+import { jwtDecode } from "jwt-decode";
+import { addOrderApiUtils, getAllDeliveryMethod, getAllPaymentMethod, getUserById } from "../../../utils/CallApi.ts";
 import User from "../../../entity/User.ts";
-import {useNavigate} from "react-router-dom";
-import {DeliveryMethod} from "../../../entity/DeliveryMethod.ts";
-import {PaymentMethod} from "../../../entity/PaymentMethod.ts";
-import {useForm} from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { DeliveryMethod } from "../../../entity/DeliveryMethod.ts";
+import { PaymentMethod } from "../../../entity/PaymentMethod.ts";
+import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import Orders from '../../../entity/Order.ts';
 
 const Checkout = () => {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [cart, setCart] = useState<Cart[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
     const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod[]>([]);
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod[]>([]);
+    const [userId, setUserId] = useState<number>();
 
     useEffect(() => {
 
@@ -27,6 +30,10 @@ const Checkout = () => {
         fetchMethod()
 
         const cartData = getCart();
+        if (cartData.length <= 0) {
+            navigate(-1);
+        }
+
         setCart(cartData);
     }, []);
 
@@ -41,6 +48,7 @@ const Checkout = () => {
         if (token) {
             const parseToken: any = jwtDecode(token);
             const userId = parseToken?.userId;
+            setUserId(userId);
 
             // Gọi getUserById và đợi kết quả
             const fetchedUser = await getUserById(userId, token);
@@ -57,34 +65,42 @@ const Checkout = () => {
     }
 
     // ---> KHI NGƯỜI DÙNG NHẤN ĐẶT HÀNG
-    const order = (data: any) => {
-       const json = {
-           address: data.address,
-           deliveryMethod :{
-               deliveryId : data.delivery
-           },
-           paymentMethod : {
-               paymentId : data.payment
-           },
-           orderDetailList : [
-               cart.map((item) => {
-                   return {
-                       quantity : item.quantity,
-                       product : {
-                           productId : item.productId
-                       },
-                       productColor : {
-                           productColorId : item.productColorId
-                       },
-                       productSize : {
-                           productSizeId : item.productSizeId
-                       }
-                   }
-               })
-           ]
-       };
+    const order = async (data: any) => {
+        const json = JSON.stringify({
+            address: data.address,
+            deliveryMethod: {
+                deliveryId: data.delivery
+            },
+            paymentMethod: {
+                paymentId: data.payment
+            },
+            orderDetailList:
+                cart.map((item) => {
+                    return {
+                        quantity: item.quantity,
+                        product: {
+                            productId: item.productId
+                        },
+                        productColor: {
+                            productColorId: item.productColorId
+                        },
+                        productSize: {
+                            productSizeId: item.productSizeId
+                        }
+                    }
+                })
 
-        console.log(json)
+        });
+
+        const order: Orders | null =  await addOrderApiUtils(json, Number(userId));
+
+        
+        if (order !== null) {
+            toast.success("Đặt hàng thành công")
+            navigate(`/order-info?orderId=${order.orderId}`)
+        } else {
+            toast.error("Lỗi khi đặt hàng");
+        }
     }
 
     // Kiểm tra xem user đã được tải chưa
@@ -92,16 +108,16 @@ const Checkout = () => {
         return <div>Đang tải thông tin người dùng...</div>; // Hoặc bạn có thể hiển thị một loader tại đây
     }
 
-    return (<div style={{backgroundColor: '#f9f9f9'}}>
+    return (<div style={{ backgroundColor: '#f9f9f9' }}>
         <div className="checkout-container">
             {/* Danh sách sản phẩm */}
             <div className="cart-section">
-                <h4 style={{fontWeight: 'bold', margin: '15px 0px'}}>Danh sách đơn hàng</h4>
+                <h4 style={{ fontWeight: 'bold', margin: '15px 0px' }}>Danh sách đơn hàng</h4>
                 <div className="cart-items">
                     {cart.map((product) => (<div className="cart-item" key={product.productId}>
                         {/* Cột hình ảnh và tên */}
                         <div className="product-left">
-                            <img className="product-image" src={product.imageUrl} alt={product.productName}/>
+                            <img className="product-image" src={product.imageUrl} alt={product.productName} />
                             <p className="item-name">{product.productName}</p>
                             <p className="item-name">Màu sắc: <b>{product.productColorName}</b></p>
                             <p className="item-name">Size: <b>{product.productSizeName}</b></p>
@@ -121,8 +137,8 @@ const Checkout = () => {
 
             {/* Form thông tin khách hàng */}
             <div className="form-section">
-                <h3 style={{fontWeight: 'bold', margin: '15px 0px'}}>Thông tin khách hàng đặt hàng</h3>
-                <h6 style={{fontWeight: 'bold', color: 'orange', margin: '15px 0px'}}>Chỉ được sửa địa chỉ và chọn
+                <h3 style={{ fontWeight: 'bold', margin: '15px 0px' }}>Thông tin khách hàng đặt hàng</h3>
+                <h6 style={{ fontWeight: 'bold', color: 'orange', margin: '15px 0px' }}>Chỉ được sửa địa chỉ và chọn
                     phương thức thanh toán</h6>
                 <form onSubmit={handleSubmit(order)}>
                     <div className="form-group">
@@ -169,7 +185,7 @@ const Checkout = () => {
                     </div>
                     <div className="form-group">
                         <label>Phương thức thanh toán</label>
-                        <select  {...register('payment', {required: 'Vui lòng chọn phương thức thanh toán'})}>
+                        <select  {...register('payment', { required: 'Vui lòng chọn phương thức thanh toán' })}>
                             <option value="">Chọn</option>
                             {paymentMethod && Array.isArray(paymentMethod) && paymentMethod.map((method) => (
                                 <option value={method.paymentId} key={method.paymentId}>
@@ -184,7 +200,7 @@ const Checkout = () => {
 
                     <div className="form-group">
                         <label>Phương thức vận chuyển</label>
-                        <select {...register('delivery', {required: 'Vui lòng chọn phương thức vận chuyển'})}>
+                        <select {...register('delivery', { required: 'Vui lòng chọn phương thức vận chuyển' })}>
                             <option value="">Chọn</option>
                             {deliveryMethod && Array.isArray(deliveryMethod) && deliveryMethod.map((method) => (
                                 <option value={method.deliveryId} key={method.deliveryId}>
@@ -200,7 +216,7 @@ const Checkout = () => {
 
                     {/* Tổng tiền và nút đặt hàng */}
                     <div className="summary-section">
-                        <h3 style={{fontWeight: 'bold', margin: '15px 0px'}}>Tổng kết đơn hàng</h3>
+                        <h3 style={{ fontWeight: 'bold', margin: '15px 0px' }}>Tổng kết đơn hàng</h3>
                         <p className="total-price">
                             Tổng giá trị đơn hàng: {formatVND(totalPrice)}
                         </p>

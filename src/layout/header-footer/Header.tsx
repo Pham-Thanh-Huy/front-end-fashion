@@ -31,6 +31,8 @@ const Header = () => {
             const cart = getCart();
             if (cart.length > 0) {
                 setQuantityCart(cart.length);
+            }else{
+                setQuantityCart(0)
             }
         }, 1000);
 
