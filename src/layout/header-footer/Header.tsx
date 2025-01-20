@@ -54,7 +54,7 @@ const Header = () => {
                     <nav className="limiter-menu-desktop container">
                         {/* Logo desktop */}
                         <a href="/" className="logo">
-                            <img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/>
+                            <img src="../../../public/logo.png" alt="IMG-LOGO"/>
                         </a>
                         {/* Menu desktop */}
                         <div className="menu-desktop">
